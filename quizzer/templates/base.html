@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="light" dir="ltr" class="h-full bg-slate-100">
+    <head>
+        {% block header %}
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <script src="https://kit.fontawesome.com/d160a97011.js" crossorigin="anonymous"></script>
+        <title>{% block title %}{% endblock %} Quizzer</title>
+        <link rel="icon" type="image/png" href="/static/img/favicon.ico" />
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Kalam:wght@700&display=swap" rel="stylesheet">
+        <link href="/static/css/output.css" media="all" rel="stylesheet" type="text/css">
+        <script type="module" crossorigin src="/static/build/assets/index.js?hash={{build_hash}}"></script>
+        <link rel="stylesheet" href="/static/build/assets/index.css?hash={{build_hash}}">
+        {% endblock %} 
+    </head>
+    <body class="bg-gradient-to-tr from-slate-50 to-slate-300">
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
+

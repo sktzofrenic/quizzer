@@ -15,7 +15,7 @@ def buzzer():
     print(request.method)
     return render_template('/client.html')
 
-@public_views.route('/api', methods=['GET', 'POST'])
+@public_views.route('/client/api', methods=['GET', 'POST'])
 def verse_api():
 
     if request.args.get('getCurrentQuestion'):
