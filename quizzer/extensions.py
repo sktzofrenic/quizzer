@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Extensions module. Each extension is initialized in the app factory located in app.py."""
 import pusher
+from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 
 api = Api(prefix='/api/v1')
-
+migrate = Migrate()
 db = SQLAlchemy()
 
 pusher_client = pusher.Pusher(

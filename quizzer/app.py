@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, url_for, redirect, request
 
 """Register Flask blueprints."""
 from quizzer.public import public_views
-from quizzer.extensions import api, db
+from quizzer.extensions import api, db, migrate
 
 from flask_sslify import SSLify
 from flask_cors import CORS
@@ -36,6 +36,7 @@ def register_extensions(app):
     """Register Flask extensions."""
     api.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
     return None
 
 def register_commands(app):
