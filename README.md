@@ -1,29 +1,11 @@
-# daquizzer
+# Quizzer
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a browser based buzz-in / hotseat tool for handling games in a group environemnt where everyone has a phone and needs to buzz-in to handle answer questions. 
 
-## Recommended IDE Setup
+Phone:
+![image](https://github.com/user-attachments/assets/b4cd2360-bddb-47a0-8ca5-ce2a19213ec6)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Customize configuration
+Projector / Main Screen:
+![image](https://github.com/user-attachments/assets/c3b9eea1-55db-43cd-b3fa-ba6f3a189537)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
