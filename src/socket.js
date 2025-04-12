@@ -1,6 +1,6 @@
 import Pusher from 'pusher-js'
 
-var pusher = new Pusher('c94fbf647eaf623c10ba', {
+var pusher = new Pusher('586ed4c0c7863354b01f', {
       cluster: 'us2',
       forceTLS: true
     })
