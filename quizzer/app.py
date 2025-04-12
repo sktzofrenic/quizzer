@@ -4,13 +4,14 @@ from flask import Flask, render_template, session, url_for, redirect, request
 
 """Register Flask blueprints."""
 from quizzer.public import public_views
-from quizzer.extensions import api
+from quizzer.extensions import api, db
 
 from flask_sslify import SSLify
 from flask_cors import CORS
 
 from quizzer.settings import Config
 
+from quizzer.api.resources import VerseGameApi
 
 def create_app(config_object=Config):
     """An application factory, as explained here: http://flask.pocoo.org/docs/patterns/appfactories/.
@@ -34,6 +35,7 @@ def create_app(config_object=Config):
 def register_extensions(app):
     """Register Flask extensions."""
     api.init_app(app)
+    db.init_app(app)
     return None
 
 def register_commands(app):
