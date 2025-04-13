@@ -43,13 +43,13 @@
 
                             </h1>
                             <h1 v-if="card.value == 0">
-                                <img src="https://myground.org/static/img/zonk.png" alt="">
+                                <img src="https://calvaryheights.com/static/img/zonk.png" alt="">
                             </h1>
                             <h1 v-if="card.value == -1">
-                                <img src="https://myground.org/static/img/unzonk.png" alt="">
+                                <img src="https://calvaryheights.com/static/img/unzonk.png" alt="">
                             </h1>
                             <h1 v-if="card.value == -2">
-                                <img src="https://myground.org/static/img/doubler.png" alt="">
+                                <img src="https://calvaryheights.com/static/img/doubler.png" alt="">
                             </h1>
                         </div>
                     </div>
@@ -112,21 +112,21 @@ export default {
             if (this.cards[index].value === 0) {
                 // ZONK!!!
                 if (this.unzonks > 0) {
-                    var audio = new Audio('https://myground.org/static/audio/unzonk.wav')
+                    var audio = new Audio('https://calvaryheights.com/static/audio/unzonk.wav')
                     audio.play()
                     this.unzonks -= 1
                 } else {
-                    var audio = new Audio('https://myground.org/static/audio/evillaugh.mp3')
+                    var audio = new Audio('https://calvaryheights.com/static/audio/evillaugh.mp3')
                     audio.play()
                     this.pickNumber = 0
                     this.activeTeamPoints = 0
                 }
             } else if (this.cards[index].value === -1) {
-                var audio = new Audio('https://myground.org/static/audio/unzonk.wav')
+                var audio = new Audio('https://calvaryheights.com/static/audio/unzonk.wav')
                 audio.play()
                 this.unzonks += 1
             } else if (this.cards[index].value === -2) {
-                var audio = new Audio('https://myground.org/static/audio/double.wav')
+                var audio = new Audio('https://calvaryheights.com/static/audio/double.wav')
                 audio.play()
                 this.doublers += 1
                 this.pickNumber = this.pickNumber * 2
@@ -137,7 +137,7 @@ export default {
                     this.doublers -= 1
                     this.pickNumber = this.pickNumber / 2
                 }
-                var audio = new Audio('https://myground.org/static/audio/positive.wav')
+                var audio = new Audio('https://calvaryheights.com/static/audio/positive.wav')
                 audio.play()
                 this.pickNumber += 1
             }
