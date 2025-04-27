@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, redirect
 from quizzer.extensions import pusher_client
 
 public_views = Blueprint('game_client', __name__,
@@ -14,6 +14,11 @@ def game_master():
 def buzzer():
     print(request.method)
     return render_template('/client.html')
+
+@public_views.route('/sts', methods=['GET', 'POST'])
+def sts():
+    print(request.method)
+    return redirect('https://docs.google.com/document/d/e/2PACX-1vRB7viTB9nIWYFfNg0MEtJ-NK0pIAQ4-yWOluukbA_GH218Rqx3NC5KTTfBe9NnY4-IkW5-ApeJngu5/pub')
 
 @public_views.route('/client/api', methods=['GET', 'POST'])
 def verse_api():
