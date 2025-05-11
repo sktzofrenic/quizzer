@@ -10,6 +10,11 @@ def game_master():
     print(request.method)
     return render_template('/game_master.html')
 
+@public_views.route('/files', methods=['GET', 'POST'])
+def files():
+    print(request.method)
+    return render_template('/files.html')
+
 @public_views.route('/', methods=['GET', 'POST'])
 def buzzer():
     print(request.method)
