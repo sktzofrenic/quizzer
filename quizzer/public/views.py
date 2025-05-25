@@ -23,7 +23,7 @@ def buzzer():
 @public_views.route('/sts', methods=['GET', 'POST'])
 def sts():
     print(request.method)
-    return redirect('https://drx-savrite.us-east-1.linodeobjects.com/drx-savrite/Link__Search_the_Scriptures_8409be5b.pdf')
+    return redirect('https://drx-danwins.us-east-1.linodeobjects.com/danwinsrx1/new_file05242025_31_18Searching%20the%20Scriptures%20-%20Handout.pdf')
 
 @public_views.route('/client/api', methods=['GET', 'POST'])
 def verse_api():
