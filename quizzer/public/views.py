@@ -1,4 +1,13 @@
-from flask import Blueprint, render_template, request, jsonify, redirect
+from flask import (
+    Blueprint,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    send_from_directory
+
+)
+
 from quizzer.extensions import pusher_client
 
 public_views = Blueprint('game_client', __name__,
@@ -18,7 +27,7 @@ def files():
 @public_views.route('/feud', methods=['GET', 'POST'])
 def family_feud():
     print(request.method)
-    return render_template('/family_feud.html')
+    return send_from_directory('templates', 'family_feud.html')
 
 @public_views.route('/', methods=['GET', 'POST'])
 def buzzer():
