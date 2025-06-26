@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Feud Vue3 App</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-cover bg-center" style="background-image: url('https://i.gyazo.com/78ed442bf4e523f373693f415a8a498f.png');">
+  <div id="app" class="w-full max-w-7xl">
+    <div class="bg-blue-800 border-4 border-orange-500 rounded-xl p-6 mt-60">
+      <!-- Question Header -->
+      <div class="mb-6 text-center">
+        <h1 class="text-white text-3xl font-bold">{{ currentQuestion.title }}</h1>
+      </div>
+      <!-- Answers Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div v-for="(ans, idx) in currentQuestion.answers" :key="idx"
+             @click="revealAnswer(idx)"
+             class="relative h-20 border-2 border-white rounded-lg flex items-center justify-center cursor-pointer bg-blue-700 hover:bg-blue-600 transition">
+          <template v-if="ans.revealed">
+            <span class="text-white text-4xl font-semibold">{{ ans.text }}</span>
+            <span class="absolute top-3 text-4xl right-3 bg-orange-500 px-2 py-1 rounded text-white font-bold">{{ ans.count }}</span>
+          </template>
+          <template v-else>
+            <div class="w-full h-full flex items-center justify-center bg-blue-700 rounded-lg"></div>
+          </template>
+        </div>
+      </div>
+      <!-- Navigation Buttons -->
+      <div class="mt-6 flex justify-between">
+        <button @click="prevQuestion"
+                :disabled="currentIndex === 0"
+                class="px-4 py-2 bg-orange-500 text-white rounded disabled:opacity-50">
+          &larr; Back
+        </button>
+        <button @click="nextQuestion"
+                :disabled="currentIndex === questions.length - 1"
+                class="px-4 py-2 bg-orange-500 text-white rounded disabled:opacity-50">
+          Forward &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          currentIndex: 0,
+                questions: [
+                    {
+                        title: 'What is Peter from the Bible most known for?',
+                        answers: [
+                            { text: 'Denial of Jesus', count: 30, revealed: false },
+                            { text: 'Being the “rock”', count: 20, revealed: false },
+                            { text: 'Walking on water', count: 15, revealed: false },
+                            { text: 'Preaching at Pentecost', count: 15, revealed: false },
+                            { text: 'Impulsive / Not Thinking', count: 10, revealed: false },
+                            { text: 'Fishing Business', count: 10, revealed: false },
+                        ]
+                    },
+                    {
+                        title: 'What is Moses from the Bible most known for?',
+                        answers: [
+                            { text: 'Parting the Red Sea', count: 30, revealed: false },
+                            { text: 'Ten Commandments', count: 25, revealed: false },
+                            { text: 'Exodus from Egypt', count: 20, revealed: false },
+                            { text: 'Striking the rock', count: 10, revealed: false },
+                            { text: 'Killing the Egyptian', count: 10, revealed: false },
+                            { text: 'Encounter at the burning bush', count: 5, revealed: false },
+                        ]
+                    },
+                    {
+                        title: 'What is King David from the Bible most known for?',
+                        answers: [
+                            { text: 'Killing Goliath', count: 30, revealed: false },
+                            { text: 'Writing Psalms', count: 20, revealed: false },
+                            { text: 'Affair with Bathsheba', count: 15, revealed: false },
+                            { text: 'Murdering Uriah', count: 15, revealed: false },
+                            { text: 'Sparing Saul\'s Life', count: 10, revealed: false },
+                            { text: 'Keeping the Sheep', count: 10, revealed: false },
+                        ]
+                    },
+                    {
+                        title: 'What is King Saul from the Bible most known for?',
+                        answers: [
+                            { text: 'First king of Israel', count: 30, revealed: false },
+                            { text: 'Jealousy / Anger', count: 20, revealed: false },
+                            { text: 'Disobeying God', count: 20, revealed: false },
+                            { text: 'Trying to kill David', count: 10, revealed: false },
+                            { text: 'Contacted a Witch', count: 10, revealed: false },
+                            { text: 'No Relationship with God', count: 10, revealed: false },
+                        ]
+                    }
+                ]
+        };
+      },
+      computed: {
+        currentQuestion() {
+          return this.questions[this.currentIndex];
+        }
+      },
+      methods: {
+        revealAnswer(idx) {
+          this.currentQuestion.answers[idx].revealed = true;
+        },
+        nextQuestion() {
+          if (this.currentIndex < this.questions.length - 1) {
+            this.currentIndex++;
+          }
+        },
+        prevQuestion() {
+          if (this.currentIndex > 0) {
+            this.currentIndex--;
+          }
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
+

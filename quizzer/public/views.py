@@ -15,6 +15,11 @@ def files():
     print(request.method)
     return render_template('/files.html')
 
+@public_views.route('/feud', methods=['GET', 'POST'])
+def family_feud():
+    print(request.method)
+    return render_template('/family_feud.html')
+
 @public_views.route('/', methods=['GET', 'POST'])
 def buzzer():
     print(request.method)
