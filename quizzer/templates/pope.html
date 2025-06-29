@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Centered Image</title>
+  <style>
+    /* reset and box-sizing */
+    *, *::before, *::after {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      position: relative;
+      background-color: black;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* blurred full-screen background */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://i.gyazo.com/a09ac7f98ee45cb00cfd9238fe7f8e51.png') center center / cover no-repeat;
+      filter: blur(20px);
+      transform: scale(1.1); /* hide blur edges */
+      z-index: -1;
+    }
+
+    /* main centered image */
+    img {
+      height: 100vh;   /* fill viewport height */
+      width: auto;     /* preserve aspect ratio */
+      max-width: 100%; /* never exceed viewport width */
+      display: block;
+      margin-top: 80px;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.gyazo.com/a09ac7f98ee45cb00cfd9238fe7f8e51.png" alt="Centered">
+</body>
+</html>

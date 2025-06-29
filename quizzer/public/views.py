@@ -24,6 +24,11 @@ def files():
     print(request.method)
     return render_template('/files.html')
 
+@public_views.route('/pope', methods=['GET', 'POST'])
+def pope_micah():
+    print(request.method)
+    return render_template('/pope.html')
+
 @public_views.route('/feud', methods=['GET', 'POST'])
 def family_feud():
     print(request.method)
