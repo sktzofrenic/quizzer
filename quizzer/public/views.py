@@ -29,6 +29,11 @@ def pope_micah():
     print(request.method)
     return render_template('/pope.html')
 
+@public_views.route('/noooo', methods=['GET', 'POST'])
+def noooo():
+    print(request.method)
+    return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+
 @public_views.route('/feud', methods=['GET', 'POST'])
 def family_feud():
     print(request.method)
