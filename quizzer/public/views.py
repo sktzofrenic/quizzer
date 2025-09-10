@@ -76,10 +76,12 @@ def noooo():
     # Prepare email data
     data = {
         'from': 'noreply@drxapp.com',
-        'to': 'recipient@example.com',  # Replace with actual recipient
-        'subject': 'Transaction Receipt',
+        'to': 'dan@danwins.com',  # Replace with actual recipient
+        'subject': 'IT WAS CLICKED!!',
         'html': transaction_email_html 
     }
+
+    print(Config.MAILGUN_API_KEY, 'the key')
     
     result = requests.post(
         "https://api.mailgun.net/v3/drxapp.com/messages",
