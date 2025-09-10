@@ -15,6 +15,7 @@ class Config(object):
     PUSHER_KEY = os.environ.get('PUSHER_KEY')
     PUSHER_SECRET = os.environ.get('PUSHER_SECRET')
     PUSHER_CLUSTER = os.environ.get('PUSHER_CLUSTER')
+    MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
 
 class ProdConfig(Config):
     ENV = 'DEV'
