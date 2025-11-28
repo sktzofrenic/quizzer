@@ -11,7 +11,7 @@ from flask_cors import CORS
 
 from quizzer.settings import Config
 
-from quizzer.api.resources import VerseGameApi
+from quizzer.api.resources import VerseGameApi, PollsApi, PollsAdminApi
 
 def create_app(config_object=Config):
     """An application factory, as explained here: http://flask.pocoo.org/docs/patterns/appfactories/.

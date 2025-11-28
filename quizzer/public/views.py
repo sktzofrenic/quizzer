@@ -99,6 +99,14 @@ def family_feud():
     print(request.method)
     return send_from_directory('templates', 'family_feud.html')
 
+@public_views.route('/polls/admin', methods=['GET'])
+def poll_admin():
+    return send_from_directory('templates', 'poll_admin.html')
+
+@public_views.route('/polls/<int:poll_id>', methods=['GET'])
+def poll_view(poll_id):
+    return send_from_directory('templates', 'poll.html')
+
 @public_views.route('/', methods=['GET', 'POST'])
 def buzzer():
     print(request.method)
