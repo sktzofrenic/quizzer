@@ -46,6 +46,7 @@ class PollsApi(Resource):
 
         answer_id = json_data.get('answer_id')
         voter_identifier = json_data.get('voter_identifier')
+        fingerprint = json_data.get('fingerprint')
 
         if not answer_id:
             return {
@@ -77,6 +78,20 @@ class PollsApi(Resource):
                 'message': 'Answer not found'
             }, 404
 
+        # Check for existing vote by fingerprint first (more reliable)
+        if fingerprint:
+            existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
+                (PollAnswer.poll_id == poll_id) &
+                (PollAnswerVote.fingerprint == fingerprint)
+            ).first()
+
+            if existing_vote:
+                return {
+                    'success': False,
+                    'message': 'Already voted on this poll'
+                }, 400
+
+        # Fall back to voter_identifier check
         if voter_identifier:
             existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
                 (PollAnswer.poll_id == poll_id) &
@@ -91,7 +106,8 @@ class PollsApi(Resource):
 
         vote = PollAnswerVote.create(
             poll_answer_id=answer_id,
-            voter_identifier=voter_identifier
+            voter_identifier=voter_identifier,
+            fingerprint=fingerprint
         )
         vote.save()
 

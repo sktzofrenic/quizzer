@@ -60,6 +60,7 @@ class PollAnswerVote(SurrogatePK, Model):
     poll_answer_id = db.Column(db.Integer, db.ForeignKey('poll_answers.id'), nullable=False)
     poll_answer = relationship('PollAnswer', backref='poll_answer_votes')
     voter_identifier = db.Column(db.String(255))
+    fingerprint = db.Column(db.String(255))
 
     @property
     def serialized(self):
