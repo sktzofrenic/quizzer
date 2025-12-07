@@ -90,7 +90,9 @@ class PollsApi(Resource):
             if existing_vote:
                 return {
                     'success': False,
-                    'message': already_voted_message
+                    'message': already_voted_message,
+                    'already_voted': True,
+                    'poll': poll.serialized
                 }, 400
 
         # Fall back to voter_identifier check
@@ -103,7 +105,9 @@ class PollsApi(Resource):
             if existing_vote:
                 return {
                     'success': False,
-                    'message': already_voted_message
+                    'message': already_voted_message,
+                    'already_voted': True,
+                    'poll': poll.serialized
                 }, 400
 
         vote = PollAnswerVote.create(

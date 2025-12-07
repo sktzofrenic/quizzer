@@ -221,6 +221,10 @@ export default {
           this.poll = data.poll;
           this.hasVoted = true;
           this.showResults = true;
+        } else if (data.already_voted) {
+          this.showToast(data.message);
+          this.poll = data.poll;
+          this.showResults = true;
         } else {
           this.showToast(data.message || 'Failed to submit vote');
         }
