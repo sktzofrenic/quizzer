@@ -78,6 +78,8 @@ class PollsApi(Resource):
                 'message': 'Answer not found'
             }, 404
 
+        already_voted_message = 'Hahaha, nice try you sly dog...😈'
+
         # Check for existing vote by fingerprint first (more reliable)
         if fingerprint:
             existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
@@ -88,7 +90,7 @@ class PollsApi(Resource):
             if existing_vote:
                 return {
                     'success': False,
-                    'message': 'Already voted on this poll'
+                    'message': already_voted_message
                 }, 400
 
         # Fall back to voter_identifier check
@@ -101,7 +103,7 @@ class PollsApi(Resource):
             if existing_vote:
                 return {
                     'success': False,
-                    'message': 'Already voted on this poll'
+                    'message': already_voted_message
                 }, 400
 
         vote = PollAnswerVote.create(
