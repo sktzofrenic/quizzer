@@ -1,6 +1,16 @@
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center p-4">
 
+    <!-- Toast Notification -->
+    <transition name="toast">
+      <div
+        v-if="toast.show"
+        class="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg backdrop-blur-lg bg-red-500/90 text-white font-medium"
+      >
+        {{ toast.message }}
+      </div>
+    </transition>
+
     <!-- Loading State -->
     <div v-if="loading" class="text-white text-xl">
       <svg class="animate-spin h-8 w-8 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -121,7 +131,11 @@ export default {
       hasVoted: false,
       showResults: false,
       votedAnswerId: null,
-      fingerprint: null
+      fingerprint: null,
+      toast: {
+        show: false,
+        message: ''
+      }
     };
   },
   computed: {
@@ -208,10 +222,10 @@ export default {
           this.hasVoted = true;
           this.showResults = true;
         } else {
-          alert(data.message || 'Failed to submit vote');
+          this.showToast(data.message || 'Failed to submit vote');
         }
       } catch (err) {
-        alert('Failed to submit vote. Please try again.');
+        this.showToast('Failed to submit vote. Please try again.');
       } finally {
         this.submitting = false;
       }
@@ -219,6 +233,13 @@ export default {
     getPercentage(votes) {
       if (this.totalVotes === 0) return 0;
       return (votes / this.totalVotes) * 100;
+    },
+    showToast(message) {
+      this.toast.message = message;
+      this.toast.show = true;
+      setTimeout(() => {
+        this.toast.show = false;
+      }, 3000);
     }
   },
   async mounted() {
@@ -266,5 +287,19 @@ export default {
 }
 .bar-animate {
   transition: width 0.8s ease-out;
+}
+.toast-enter-active {
+  transition: all 0.3s ease-out;
+}
+.toast-leave-active {
+  transition: all 0.3s ease-in;
+}
+.toast-enter-from {
+  transform: translate(-50%, -100%);
+  opacity: 0;
+}
+.toast-leave-to {
+  transform: translate(-50%, -20px);
+  opacity: 0;
 }
 </style>
