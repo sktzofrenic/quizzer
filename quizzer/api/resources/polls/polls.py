@@ -257,6 +257,32 @@ class PollsAdminApi(Resource):
         }
 
 
+class PollClearVotesApi(Resource):
+
+    def post(self, poll_id=None):
+        if not poll_id:
+            return {'success': False, 'message': 'Poll ID required'}, 400
+
+        poll = Poll.query.filter(Poll.id == poll_id).first()
+        if not poll:
+            return {'success': False, 'message': 'Poll not found'}, 404
+
+        # Delete all votes for this poll's answers
+        for answer in poll.poll_answers:
+            PollAnswerVote.query.filter(PollAnswerVote.poll_answer_id == answer.id).delete()
+
+        db.session.commit()
+
+        # Refresh poll to get updated vote counts
+        poll = Poll.query.filter(Poll.id == poll_id).first()
+
+        return {
+            'success': True,
+            'message': 'All votes cleared',
+            'poll': poll.serialized
+        }
+
+
 api.add_resource(PollsApi,
                  '/polls',
                  '/polls/<int:poll_id>')
@@ -264,3 +290,6 @@ api.add_resource(PollsApi,
 api.add_resource(PollsAdminApi,
                  '/polls/admin',
                  '/polls/admin/<int:poll_id>')
+
+api.add_resource(PollClearVotesApi,
+                 '/polls/<int:poll_id>/clear-votes')
