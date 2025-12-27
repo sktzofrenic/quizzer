@@ -65,10 +65,20 @@
               <div
                 v-for="answer in poll.answers"
                 :key="answer.id"
-                class="flex items-center justify-between bg-gray-50 rounded px-3 py-2"
+                class="bg-gray-50 rounded px-3 py-2"
               >
-                <span class="text-gray-700">{{ answer.text }}</span>
-                <span class="text-sm text-gray-500">{{ answer.votes_count }} votes</span>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-gray-700">{{ answer.text }}</span>
+                  <span class="text-sm text-gray-500">
+                    {{ answer.votes_count }} votes ({{ getPercentage(answer, poll) }}%)
+                  </span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    class="bg-indigo-500 h-2 rounded-full transition-all duration-300"
+                    :style="{ width: getPercentage(answer, poll) + '%' }"
+                  ></div>
+                </div>
               </div>
             </div>
 
@@ -554,6 +564,12 @@
 
         getTotalVotes(poll) {
           return poll.answers.reduce((sum, a) => sum + a.votes_count, 0);
+        },
+
+        getPercentage(answer, poll) {
+          const total = this.getTotalVotes(poll);
+          if (total === 0) return 0;
+          return Math.round((answer.votes_count / total) * 100);
         },
 
         formatDate(dateStr) {
