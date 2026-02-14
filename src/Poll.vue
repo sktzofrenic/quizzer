@@ -116,8 +116,6 @@
 </template>
 
 <script>
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
-
 export default {
   name: 'Poll',
   data() {
@@ -131,7 +129,6 @@ export default {
       hasVoted: false,
       showResults: false,
       votedAnswerId: null,
-      fingerprint: null,
       toast: {
         show: false,
         message: ''
@@ -208,8 +205,7 @@ export default {
           },
           body: JSON.stringify({
             answer_id: this.selectedAnswer,
-            voter_identifier: this.getVoterId(),
-            fingerprint: this.fingerprint
+            voter_identifier: this.getVoterId()
           })
         });
 
@@ -254,11 +250,6 @@ export default {
       this.loading = false;
       return;
     }
-
-    // Initialize FingerprintJS and get the visitor identifier
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    this.fingerprint = result.visitorId;
 
     if (this.hasVotedOnPoll(this.pollId)) {
       this.hasVoted = true;

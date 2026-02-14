@@ -46,7 +46,6 @@ class PollsApi(Resource):
 
         answer_id = json_data.get('answer_id')
         voter_identifier = json_data.get('voter_identifier')
-        fingerprint = json_data.get('fingerprint')
 
         if not answer_id:
             return {
@@ -80,11 +79,12 @@ class PollsApi(Resource):
 
         already_voted_message = 'Hahaha, nice try you sly dog...😈'
 
-        # Check for existing vote by fingerprint first (more reliable)
-        if fingerprint:
+        # Check for existing vote by IP address
+        ip_address = request.remote_addr
+        if ip_address:
             existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
                 (PollAnswer.poll_id == poll_id) &
-                (PollAnswerVote.fingerprint == fingerprint)
+                (PollAnswerVote.ip_address == ip_address)
             ).first()
 
             if existing_vote:
@@ -95,7 +95,7 @@ class PollsApi(Resource):
                     'poll': poll.serialized
                 }, 400
 
-        # Fall back to voter_identifier check
+        # Check for existing vote by voter_identifier (localStorage)
         if voter_identifier:
             existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
                 (PollAnswer.poll_id == poll_id) &
@@ -113,7 +113,7 @@ class PollsApi(Resource):
         vote = PollAnswerVote.create(
             poll_answer_id=answer_id,
             voter_identifier=voter_identifier,
-            fingerprint=fingerprint
+            ip_address=ip_address
         )
         vote.save()
 
