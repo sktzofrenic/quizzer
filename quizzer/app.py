@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
-from flask import Flask, render_template, session, url_for, redirect, request
+from flask import Flask, redirect, render_template, request, session, url_for
 
 """Register Flask blueprints."""
-from quizzer.public import public_views
-from quizzer.extensions import api, db, migrate
-
-from flask_sslify import SSLify
 from flask_cors import CORS
+from flask_sslify import SSLify
+from werkzeug.middleware.proxy_fix import ProxyFix
 
+from quizzer.api.resources import PollsAdminApi, PollsApi, VerseGameApi
+from quizzer.extensions import api, db, migrate
+from quizzer.public import public_views
 from quizzer.settings import Config
 
-from quizzer.api.resources import VerseGameApi, PollsApi, PollsAdminApi
 
 def create_app(config_object=Config):
     """An application factory, as explained here: http://flask.pocoo.org/docs/patterns/appfactories/.
@@ -19,6 +19,7 @@ def create_app(config_object=Config):
     :param config_object: The configuration object to use.
     """
     app = Flask(__name__.split('.')[0])
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
     CORS(app)
     app.config.from_object(config_object)
     register_extensions(app)
