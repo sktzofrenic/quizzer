@@ -221,6 +221,8 @@ export default {
           this.showToast(data.message);
           this.poll = data.poll;
           this.showResults = true;
+        } else if (data.retry_after) {
+          this.showToast(`Please wait ${data.retry_after} seconds before voting again`);
         } else {
           this.showToast(data.message || 'Failed to submit vote');
         }

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Polls API."""
+from datetime import datetime, timezone
+
 from flask import request
 from flask_restful import Resource, reqparse
 
@@ -77,25 +79,9 @@ class PollsApi(Resource):
                 'message': 'Answer not found'
             }, 404
 
-        already_voted_message = 'Hahaha, nice try you sly dog...😈'
-
-        # Check for existing vote by IP address
         ip_address = request.remote_addr
-        if ip_address:
-            existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
-                (PollAnswer.poll_id == poll_id) &
-                (PollAnswerVote.ip_address == ip_address)
-            ).first()
 
-            if existing_vote:
-                return {
-                    'success': False,
-                    'message': already_voted_message,
-                    'already_voted': True,
-                    'poll': poll.serialized
-                }, 400
-
-        # Check for existing vote by voter_identifier (localStorage)
+        # Block exact same voter from voting twice
         if voter_identifier:
             existing_vote = PollAnswerVote.query.join(PollAnswer).filter(
                 (PollAnswer.poll_id == poll_id) &
@@ -105,10 +91,42 @@ class PollsApi(Resource):
             if existing_vote:
                 return {
                     'success': False,
-                    'message': already_voted_message,
+                    'message': 'You have already voted on this poll',
                     'already_voted': True,
                     'poll': poll.serialized
                 }, 400
+
+        # Rate-limit new voters from the same IP with exponential backoff
+        if ip_address:
+            previous_votes = PollAnswerVote.query.join(PollAnswer).filter(
+                (PollAnswer.poll_id == poll_id) &
+                (PollAnswerVote.ip_address == ip_address)
+            ).order_by(PollAnswerVote.created_at.desc()).all()
+
+            vote_count = len(previous_votes)
+            if vote_count > 0:
+                last_vote = previous_votes[0]
+                required_wait = 30 * (2 ** (vote_count - 1))
+                now = datetime.now(timezone.utc)
+                last_vote_time = last_vote.created_at.replace(tzinfo=timezone.utc)
+                elapsed = (now - last_vote_time).total_seconds()
+                remaining = required_wait - elapsed
+
+                if remaining > 0:
+                    retry_after = int(remaining) + 1
+                    if retry_after >= 60:
+                        minutes = retry_after // 60
+                        seconds = retry_after % 60
+                        wait_str = f"{minutes}m {seconds}s" if seconds else f"{minutes}m"
+                    else:
+                        wait_str = f"{retry_after}s"
+
+                    return {
+                        'success': False,
+                        'message': f'Please wait {wait_str} before voting again',
+                        'retry_after': retry_after,
+                        'poll': poll.serialized
+                    }, 429
 
         vote = PollAnswerVote.create(
             poll_answer_id=answer_id,
