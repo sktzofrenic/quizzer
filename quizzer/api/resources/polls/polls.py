@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Polls API."""
-from datetime import datetime, timezone
+from datetime import datetime
 
 from flask import request
 from flask_restful import Resource, reqparse
@@ -107,8 +107,8 @@ class PollsApi(Resource):
             if vote_count > 0:
                 last_vote = previous_votes[0]
                 required_wait = 30 * (2 ** (vote_count - 1))
-                now = datetime.now(timezone.utc)
-                last_vote_time = last_vote.created_at.replace(tzinfo=timezone.utc)
+                now = datetime.now()
+                last_vote_time = last_vote.created_at
                 elapsed = (now - last_vote_time).total_seconds()
                 remaining = required_wait - elapsed
 
